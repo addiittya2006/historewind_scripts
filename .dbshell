@@ -1,0 +1,11 @@
+show db
+show dbs
+use admin
+show dbs
+show dbs
+show collections
+var schematodo = db.pageimageshigh.findOne();
+for (var key in schematodo) { print (key) ; }
+db.pageimageshigh.findOne({"_id": "September_11_attacks"});
+db.pageimageshigh.findOne({"_id": "September 11 attacks"});
+db.pageimageshigh.findOne({"_id": "September 11 attacks"});

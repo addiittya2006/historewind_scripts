@@ -1,5 +1,7 @@
 import os
+import re
 import json
+import operator
 from bs4 import BeautifulSoup as Soup, Tag
 
 __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
@@ -24,25 +26,6 @@ def prepare_index(date):
         for line in filev:
             m = str(line).split("**")
             ddict[m[0]] = m[1]
-
-
-def get_image(event, date, year):
-    images = {}
-    with open(os.path.join(__location__, "out/"+str(date)+"/imager.txt"), "r") as imagefile:
-        string = imagefile.read()
-        images = eval(string)
-    birthimages = images.get("births")
-    eventimages = images.get("events")
-    deathimages = images.get("deaths")
-    if event == 1:
-        return birthimages.get(year)
-    elif event == 2:
-        return eventimages.get(year)
-    elif event == 3:
-        return deathimages.get(year)
-    else:
-        print "error"
-
 
 
 def get_news(event, date, year):
@@ -83,25 +66,19 @@ for i in range(len(months)):
             lst = []
             for item in sortedb:
                 tempdict = {}
-                tempdict['year'] = item
-                tempdict['desc'] = get_news(1, date, item)
-                tempdict['thumb'] = get_image(1, date, item)
+                tempdict[item] = get_news(1, date, item)
                 lst.append(tempdict)
             magdict["births"] = lst
             lst = []
             for item in sortedd:
                 tempdict = {}
-                tempdict['year'] = item
-                tempdict['desc'] = get_news(3, date, item)
-                tempdict['thumb'] = get_image(3, date, item)
+                tempdict[item] = get_news(3, date, item)
                 lst.append(tempdict)
             magdict["deaths"] = lst
             lst = []
             for item in sortede:
                 tempdict = {}
-                tempdict['year'] = item
-                tempdict['desc'] = get_news(2, date, item)
-                tempdict['thumb'] = get_image(2, date, item)
+                tempdict[item] = get_news(2, date, item)
                 lst.append(tempdict)
             magdict["events"] = lst
         
